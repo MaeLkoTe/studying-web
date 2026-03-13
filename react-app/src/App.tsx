@@ -9,9 +9,6 @@ function App() {
     const [habitText, setHabitText] = useState('');
     const [habits, setHabits] = useState<Habit[]>([]);
 
-    function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        setHabitText(e.target.value);
-    }
 
     function handleAddSubmit(){
         const trimmedText = habitText.trim();
@@ -23,11 +20,26 @@ function App() {
         const newHabit: Habit = {
             id: Number(id),
             title: trimmedText,
-            completed: false
+            isCompleted: false
         }
 
         setHabits([...habits, newHabit]);
         setHabitText("");
+    }
+
+    function changeHabitStatus(id: number){
+        setHabits(prev => prev.map(function(habit) {
+            if(habit.id !== id) return habit;
+            return {
+                ...habit,
+                isCompleted: !habit.isCompleted
+            };
+            }) 
+        )
+    }
+
+    function deleteHabit(id: number){
+        setHabits(prev => prev.filter((habit) => habit.id !== id))
     }
 
     return (
@@ -35,11 +47,13 @@ function App() {
         <h1 className="text-3xl">Habit Tracker</h1>
         <HabitForm 
             habitText={habitText}
-            handleChange={handleChange} 
+            handleChange={(e) => setHabitText(e.target.value)} 
             handleAddSubmit={handleAddSubmit}
         />
         <HabitList
             habits={habits}
+            onToggle={changeHabitStatus}
+            onDelete={deleteHabit}
         />
         
     </div>

@@ -3,23 +3,25 @@ import HabitItem from './HabitItem';
 
 
 function HabitList(props: HabitListProps){
-    const { habits } = props;
+    const { habits, onToggle: onToogle, onDelete } = props;
 
-    function renderHabits() {
+    function renderStatus() {
         if (!habits.length){
             return <p>No Habits yet</p>
         }
-        console.log(habits);
         return <p>Habit count: {habits.length}</p>
     }
 
     return (
         <div>
-            {renderHabits()}
-            <ul>
+            {renderStatus()}
+            <ul className="mt-4 flex flex-col gap-2">
                 {habits.map(habit => (
                     <HabitItem
-                        {...habit}
+                        key={habit.id}
+                        habit={habit}
+                        onToggle={onToogle}
+                        onDelete={onDelete}
                     />
                     )
                 )}
