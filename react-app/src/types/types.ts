@@ -1,3 +1,5 @@
+import type { ChangeEventHandler } from "react"
+
 interface Habit {
     id: number,
     title: string,
@@ -22,4 +24,11 @@ interface HabitItemProps {
     onDelete: (id: number) => void
 }
 
-export type { Habit, HabitFormProps, HabitListProps, HabitItemProps}
+interface DefaultSelectType {
+    options: {name: string, value: string}[],
+    defaultValue: string, 
+    onChange: (sort: string) => void,
+    value: string
+}
+
+export type { Habit, HabitFormProps, HabitListProps, HabitItemProps, DefaultSelectType}
